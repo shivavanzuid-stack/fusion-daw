@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fusion DAW</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101116;color:#fff;font-family:Arial,sans-serif;padding:18px}
+h1{margin:4px 0;color:#9b8cff}
+p{color:#aaa}
+nav{display:flex;gap:8px;margin:24px 0}
+button{background:#272832;color:white;border:0;border-radius:10px;padding:14px;flex:1;font-weight:bold}
+button.active{background:#8b5cf6}
+.panel{background:#1b1c25;padding:16px;border-radius:14px;margin-bottom:14px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.step{height:48px;border-radius:7px;background:#30313e}
+.step.on{background:#f59e0b}
+.track{height:34px;border-radius:6px;margin:10px 0;background:linear-gradient(90deg,#8b5cf6 45%,#343541 45%)}
+#status{color:#a5f3fc}
+</style>
+</head>
+<body>
+<h1>Fusion DAW</h1>
+<p>One studio. Two workflows.</p>
+
+<nav>
+<button id="logic" class="active" onclick="switchMode('logic')">LOGIC</button>
+<button id="fl" onclick="switchMode('fl')">FL STUDIO</button>
+</nav>
+
+<h2 id="heading">Logic Mode</h2>
+<p id="description">Arrangement en audio-opname</p>
+
+<section class="panel">
+<h3 id="toolTitle">Arrangement</h3>
+<div class="track"></div>
+<div class="track"></div>
+<div class="track"></div>
+</section>
+
+<section class="panel">
+<h3 id="sequencerTitle">Drum Sequencer</h3>
+<div class="steps" id="steps"></div>
+<button onclick="playBeat()" style="margin-top:16px">▶ Test beat</button>
+<p id="status">Klaar om te produceren</p>
+</section>
+
+<script>
+let mode='logic';
+function switchMode(next){
+mode=next;
+document.getElementById('logic').classList.toggle('active',mode==='logic');
+document.getElementById('fl').classList.toggle('active',mode==='fl');
+document.getElementById('heading').textContent=
+mode==='logic'?'Logic Mode':'FL Studio Mode';
+document.getElementById('description').textContent=
+mode==='logic'?'Arrangement en audio-opname':'Patterns en beats bouwen';
+document.getElementById('toolTitle').textContent=
+mode==='logic'?'Arrangement':'Channel Rack';
+document.getElementById('sequencerTitle').textContent=
+mode==='logic'?'Drum Sequencer':'FL Step Sequencer';
+document.getElementById('status').textContent=
+'Modus gewijzigd: '+(mode==='logic'?'Logic':'FL Studio');
+}
+const steps=document.getElementById('steps');
+for(let i=0;i<16;i++){
+const s=document.createElement('button');
+s.className='step'+([0,4,8,12].includes(i)?' on':'');
+s.setAttribute('aria-label','Drumstap '+(i+1));
+s.onclick=()=>s.classList.toggle('on');
+steps.appendChild(s);
+}
+function playBeat(){
+document.getElementById('status').textContent=
+'Je patroon staat klaar. Audio afspelen voegen we hierna toe.';
+}
+</script>
+</body>
+</html>
+  
